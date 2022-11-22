@@ -13,8 +13,13 @@ def hashtags_view(request):
 
 def posts_view(request):
     if request.method == 'GET':
+        hashtag_id = request.GET.get('hashtag_id')
+        if hashtag_id:
+            posts = Post.objects.filter(hashtag=Hashtag.objects.get(id=hashtag_id))
+        else:
+            posts = Post.objects.all()
         data = {
-            'posts': Post.objects.all()
+            'posts': posts
         }
         return render(request, 'posts/posts.html', context=data)
 
